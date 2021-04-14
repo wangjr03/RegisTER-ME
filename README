@@ -1,0 +1,45 @@
+1. Introduction
+The RegisTER-ME is a tool to map the multi-mapping reads in ChIP-seq data to one of its possible mapping positions using the sequence information and the mapping of other reads. 
+
+
+2. Required Modules
+Python
+R
+scipy
+numpy
+pyfasta
+MACS (should be added to PATH, can be run directly using 'macs + commands'. You can install MACS through conda: conda install -c auto macs)
+
+
+3. Required files
+The read mapping results of 2 replicates, must be in SAM format and contain both uniquely mapped reads and multimapping reads
+Whole genome sequence file, must be in FASTA format.
+
+
+4. Usage
+To run the code, use the following command:
+python  batch.py  --t1 first_input_sam  --t2 second_input_sam  --prefix output_path/output_name_prefix  --weight weight -codepath code_path  --ref_path genome_sequence_fasta_file --max_iter max_iteration --genome whole_genome_size
+
+
+
+5. Output
+prefix+'_reads': SAM format, the mapping position of uniquely-mapped reads and multimapping reads.
+
+
+
+6. Command Line Arguments
+--t1: the first input SAM file
+--t2: the second input SAM file
+--pre: the prefix of the output file, should include the output path and output name prefix
+-a: in data filtering step, the total mismatches and insertions or deletions allowed, default = 2
+--genome: the whole genome size. default is the human whole genome size
+--pvalue: the p value used to remove PCR duplications
+--gap: the gap size allowed between 2 consecutive tags to form a site, default = 1
+--weight: the weight for a multi-mapping reads
+--ref_path: reference genome file, must include the path to the file and the file name
+--codepath: the path of GibbsCode
+--flanking: the sequence length up/downstream of the central pointer of a site, which is used to calculate kmer frequency. Totally 2f bp sequence would be used then',default= 0.5site
+--threshold: the threshold for the fraction of changes between 2 Gibbs iterations, default = 0.01
+--fraction: the threshold for the fraction of changes of the changes between 2 Gibbs iterations, default = 0.1
+--max_iter: the max number of iterations in Gibbs sampling, default = 10
+--num_bin: the number of bins to grid the prior, default = 100
